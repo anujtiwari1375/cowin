@@ -1,0 +1,68 @@
+body {
+    font: 400 16px/28px Roboto, Helvetica Neue, sans-serif !important;
+}
+
+.content-wrapper {
+    background-color: #f4f6f9;
+}
+
+.liveCounter {
+    padding: 20px 10px;
+}
+
+.liveCounter .counterBox {
+    box-shadow: 0 0 4px rgb(0 30 95 / 40%);
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.counterUpdate h3 {
+    font-size: 12px;
+}
+
+.counterUpdate span {
+    font-size: 15px;
+    font-weight: 500;
+    display: block;
+    pointer-events: none;
+}
+
+.counterUpdate .countColororange {
+    color: #f48c2b;
+}
+
+.counterUpdate .countColormantis {
+    color: #5ebe5d;
+}
+
+.small-box {
+    display: flex;
+    min-height: 100%;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgb(0 29 54 / 4%);
+    border-radius: 6px !important;
+}
+
+.small-box .inner p {
+    margin-bottom: 0 !important;
+}
+
+.fontnormal {
+    font-weight: 400 !important;
+    font-size: 15px !important;
+}
+
+.card-title, .small-box h3 {
+    color: #5e676f;
+    font-weight: 600 !important;
+    font-size: 17px;
+    margin-top: 5px;
+}
+
+.small-box .inner p {
+    color: #787878;
+    font-weight: 400;
+    font-size: 14px;
+}
