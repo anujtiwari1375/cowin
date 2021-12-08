@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import Dashboard from './Dashboard';
+import Wrapper from './Wrapper';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Dashboard />
+    <Wrapper />
   </React.StrictMode>,
   document.getElementById('root')
 );
