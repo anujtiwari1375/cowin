@@ -1,5 +1,4 @@
 import axios from 'axios';
-import API_URL from '../functions/API_URL';
 
 /**
  * Request ajax request to api action
@@ -13,7 +12,7 @@ export default async function callApi(url, method, data = {}, callback = null) {
         data = (!data) ? data = {} : data;
         var csrf = await axios({
             method: 'GET',
-            url: `${API_URL}/csrfToken`,
+            url: `${url}`,
             withCredentials: true,
             credentials: 'include',
             headers: {
@@ -26,7 +25,7 @@ export default async function callApi(url, method, data = {}, callback = null) {
 
     // if (method == 'GET') {
 
-    //     fetch(`${API_URL}/${url}`, {
+    //     fetch(`${url}`, {
     //         method: 'GET',
     //         // body: JSON.stringify(data),
     //         withCredentials: true,
@@ -52,12 +51,14 @@ export default async function callApi(url, method, data = {}, callback = null) {
 
     const request = await axios({
         method: method,
-        url: `${API_URL}/${url}`,
+        url: `${url}`,
         withCredentials: true,
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+
         },
         data: data,
         params: method === 'GET' ? data : ''
@@ -74,7 +75,7 @@ export default async function callApi(url, method, data = {}, callback = null) {
 
             const request = await axios({
                 method: method,
-                url: `${API_URL}/${url}`,
+                url: `${url}`,
                 withCredentials: true,
                 credentials: 'include',
                 headers: {
