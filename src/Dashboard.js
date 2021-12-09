@@ -424,7 +424,22 @@ class Dashboard extends React.Component {
                                         Vaccination By State/UT
                                     </div>
                                     <div className="card-body">
+                                        <div className="slim">
+                                            <table className="table tblstates">
+                                                <thead>
+                                                    <th>
+                                                        State/UT
+                                                    </th>
+                                                    <th>
+                                                        Today
+                                                    </th>
+                                                    <th>
+                                                        Total
+                                                    </th>
+                                                </thead>
 
+                                            </table>
+                                        </div>
                                     </div>
 
                                 </div>
