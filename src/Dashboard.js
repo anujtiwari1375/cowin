@@ -1,11 +1,28 @@
 import React from "react";
 import { connect } from 'react-redux';
 import isExists from './functions/isExists';
+import map from 'lodash/map';
+import vcaccinationCategoryGender from './functions/vcaccinationCategoryGender';
+import vcaccinationCategoryVaccine from './functions/vcaccinationCategoryVaccine';
+import vcaccinationByAge from './functions/vcaccinationByAge';
+import aefiReport from './functions/aefiReport';
+import ruralUrbanReport from './functions/ruralUrbanReport';
+import VaccinationTrend from './Graphs/VaccinationTrend';
+import RegistrationTrend from './Graphs/RegistrationTrend';
+import vaccinationCoverage from './functions/vaccinationCoverage';
 import { getPublicStats, getStats, getDistrict } from './actions/DashboardAction';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, registerables } from 'chart.js';
 import { Doughnut, Pie } from 'react-chartjs-2';
+import { Line } from 'react-chartjs-2';
+import { Bar } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, ...registerables);
+
+const _ = {
+    map: map
+};
+
 
 class Dashboard extends React.Component {
     constructor(props) {
@@ -59,6 +76,7 @@ class Dashboard extends React.Component {
 
     selectState(e) {
         var state_code = e.target.value;
+        console.log("state_id", state_code);
         this.props.getPublicStats(state_code);
         this.props.getStats(state_code);
         this.props.getDistrict(state_code, (response) => {
@@ -77,186 +95,60 @@ class Dashboard extends React.Component {
         console.log("district_code", district_code);
     }
 
+    renderStateData(vaccinationbystate) {
+
+        vaccinationbystate.sort(function (a, b) {
+            return parseFloat(b.total) - parseFloat(a.total);
+        });
+
+
+        return _.map(vaccinationbystate, state_data => {
+            return (
+                <tr>
+                    <td className="title" style={{
+                        'width': '50%',
+                        'fontSize': '13px',
+                        'color': '#007bff',
+                        'fontWeight': '500'
+                    }}>{state_data.state_name}</td>
+                    <td className="text-right" style={{
+                        'width': '25%',
+                        'fontSize': '15px',
+                        'color': '#12226f',
+                        'fontWeight': '600'
+                    }}>
+                        {state_data.today}
+                    </td>
+                    <td className="text-right" style={{
+                        'width': '25%',
+                        'fontSize': '15px',
+                        'color': '#12226f',
+                        'fontWeight': '600'
+                    }}>
+                        {state_data.total}
+                    </td>
+                </tr>
+            );
+        });
+    }
+
     render() {
         const { get_public_stats, get_stats, get_state } = this.props;
         console.log("get_stats in render function", get_public_stats);
 
-
-
-        var male_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.male : '';
-        var female_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.female : '';
-        var others_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.others : '';
-
-        var covishield_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.covishield : '';
-        var covaxin_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.covaxin : '';
-        var sputnik_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.sputnik : '';
-
-        var vac_18_45 = isExists(get_public_stats) ? get_public_stats.vaccinationByAge.vac_18_45 : '';
-        var vac_45_60 = isExists(get_public_stats) ? get_public_stats.vaccinationByAge.vac_45_60 : '';
-        var above_60 = isExists(get_public_stats) ? get_public_stats.vaccinationByAge.above_60 : '';
-
-
         var districtArray = this.state.districtArray;
-        var vcaccination_category_gender = {
-            labels: [
-                "Male",
-                "Female",
-                "Others"
-            ],
-            datasets: [
-                {
-                    data: [male_vacination, female_vacination, others_vacination],
-                    backgroundColor: [
-                        "#5A8DEE",
-                        "#F54394",
-                        "#FF9800"
-                    ],
-                    hoverBackgroundColor: [
-                        "#5A8DEE",
-                        "#F54394",
-                        "#FF9800"
-                    ],
-                    borderRadius: 0,
-                    borderWidth: 2,
-                    circumference: 180,
-                    rotation: 270,
-                    cutoutPercentage: 35,
-                },
-            ]
-        };
+        var vcaccination_category_gender = vcaccinationCategoryGender(get_public_stats);
+        var vcaccination_category_vaccine = vcaccinationCategoryVaccine(get_public_stats);
+        var vcaccinationbyage = vcaccinationByAge(get_public_stats);
+        var vaccinationbystate = isExists(get_public_stats) ? get_public_stats.getBeneficiariesGroupBy : [];
 
-        var vcaccination_category_vaccine = {
-            labels: [
-                "Covishield",
-                "Covaxin",
-                "Sputnik"
-            ],
-            datasets: [
-                {
-                    data: [covishield_vacination, covaxin_vacination, sputnik_vacination],
-                    backgroundColor: [
-                        "#007CC3",
-                        "#7AC142",
-                        "#FFF44C"
-                    ],
-                    hoverBackgroundColor: [
-                        "#007CC3",
-                        "#36A2EB",
-                        "#FFF44C"
-                    ],
-                    borderRadius: 0,
-                    borderWidth: 2,
-                    circumference: 180,
-                    rotation: 270,
-                    cutoutPercentage: 35,
-                },
-            ]
-        };
+        const aefi_report = aefiReport(get_public_stats);
+        const rural_urban_report = ruralUrbanReport(get_stats);
+        const vaccination_coverage = vaccinationCoverage(get_public_stats);
 
-        var vcaccination_category_age = {
-            labels: [
-                "18-44",
-                "45-60",
-                "Above 60"
-            ],
-            datasets: [
-                {
-                    data: [vac_18_45, vac_45_60, above_60],
-                    backgroundColor: [
-                        "#AADEA7",
-                        "#64C2A6",
-                        "#2D87BB"
-                    ],
-                    hoverBackgroundColor: [
-                        "#AADEA7",
-                        "#64C2A6",
-                        "#2D87BB"
-                    ],
-                    borderRadius: 0,
-                    borderWidth: 2,
-                    // circumference: 180,
-                    // rotation: 270,
-                    // cutoutPercentage: 35,
-                },
-            ]
-        };
 
         return (
             <div className="content-wrapper" style={{ "minHeight": '330px' }}>
-                <div className="content liveCounter">
-                    <div className="container-fluid">
-                        <div className="row">
-                            <div className="col-sm-12 col-md-6 col-lg-3 col-xl-3 padlr15px mb-3">
-                                <div className="counterBox">
-                                    <div className="row align-items-center">
-                                        <div className="col-md-7 col-lg-7 col-xl-7 p-0">
-                                            <div className="counterUpdate">
-                                                <div className="container-fluid">
-                                                    <h3>Registrations Today</h3>
-                                                    <span className="mobileCount countColorgray">26,61,758
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-5 col-lg-5 col-xl-5 p-0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-12 col-md-6 col-lg-3 col-xl-3 padlr15px mb-3">
-                                <div className="counterBox">
-                                    <div className="row align-items-center">
-                                        <div className="col-md-7 col-lg-7 col-xl-7 p-0">
-                                            <div className="counterUpdate">
-                                                <div className="container-fluid">
-                                                    <h3>Vaccinations Today</h3>
-                                                    <span className="mobileCount countColorgray">26,61,758
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-5 col-lg-5 col-xl-5 p-0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-12 col-md-6 col-lg-3 col-xl-3 padlr15px mb-3">
-                                <div className="counterBox">
-                                    <div className="row align-items-center">
-                                        <div className="col-md-7 col-lg-7 col-xl-7 p-0">
-                                            <div className="counterUpdate">
-                                                <div className="container-fluid">
-                                                    <h3>Partially Vaccinated Today</h3>
-                                                    <span className="mobileCount countColororange">26,61,758
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-5 col-lg-5 col-xl-5 p-0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-sm-12 col-md-6 col-lg-3 col-xl-3 padlr15px mb-3">
-                                <div className="counterBox">
-                                    <div className="row align-items-center">
-                                        <div className="col-md-7 col-lg-7 col-xl-7 p-0">
-                                            <div className="counterUpdate">
-                                                <div className="container-fluid">
-                                                    <h3>Fully Vaccinated Today</h3>
-                                                    <span className="mobileCount countColormantis">26,61,758
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-5 col-lg-5 col-xl-5 p-0">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div className="container-fluid">
                     <div className="row">
@@ -264,8 +156,8 @@ class Dashboard extends React.Component {
                             <div className="float-right">
                                 <div className="cm-state d-inline-block mr-2">
                                     <div className="form-group" style={{ 'width': '210px' }}>
-                                        <select className="custom-select" name="state" id="state" onClick={(e) => { this.selectState(e) }}>
-                                            <option value className="accessibility-plugin-ac">Select State</option>
+                                        <select className="custom-select" name="state" id="state" onChange={(e) => { this.selectState(e) }}>
+                                            <option value="">Select State</option>
                                             <option value={1}>Andaman and Nicobar Islands</option>
                                             <option value={2}>Andhra Pradesh</option>
                                             <option value={3}>Arunachal Pradesh</option>
@@ -275,7 +167,7 @@ class Dashboard extends React.Component {
                                 </div>
                                 <div className="cm-district d-inline-block">
                                     <div className="form-group" style={{ 'width': '210px' }}>
-                                        <select className="custom-select" name="district" id="district" onClick={(e) => { this.districtSelected(e) }}>
+                                        <select className="custom-select" name="district" id="district" onChange={(e) => { this.districtSelected(e) }}>
                                             {districtArray.map((option, key) => {
                                                 return (
                                                     <option value={option.district_id} key={key}>
@@ -303,18 +195,18 @@ class Dashboard extends React.Component {
                                         <span className="icon-vaccine"></span>
                                     </div>
                                     <div className="inner innerbox">
-                                        <p className="fontnormal titlemob accessibility-plugin-ac">
+                                        <p className="fontnormal titlemob">
                                             Total Vaccination Doses
                                         </p>
                                         <h3 className="accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.total : ''}</h3>
                                         <div className="row m-0 r-0 w-100">
                                             <div className="col pl-0">
-                                                <small className="text-muted accessibility-plugin-ac">Dose 1</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2 accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.tot_dose_1 : ''}</p>
+                                                <small className="text-muted">Dose 1</small>
+                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.tot_dose_1 : ''}</p>
                                             </div>
                                             <div className="col pr-0">
-                                                <small className="text-muted accessibility-plugin-ac">Dose 2</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2 accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.tot_dose_2 : ''}</p>
+                                                <small className="text-muted">Dose 2</small>
+                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.tot_dose_2 : ''}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -327,18 +219,18 @@ class Dashboard extends React.Component {
                                         <span className="icon-vaccine"></span>
                                     </div>
                                     <div className="inner innerbox">
-                                        <p className="fontnormal titlemob accessibility-plugin-ac">
+                                        <p className="fontnormal titlemob">
                                             Site Conducting Vaccination
                                         </p>
                                         <h3 className="accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.total : ''}</h3>
                                         <div className="row m-0 r-0 w-100">
                                             <div className="col pl-0">
-                                                <small className="text-muted accessibility-plugin-ac">Government</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2 accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.govt : ''}</p>
+                                                <small className="text-muted">Government</small>
+                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.govt : ''}</p>
                                             </div>
                                             <div className="col pr-0">
-                                                <small className="text-muted accessibility-plugin-ac">Private</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2 accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.pvt : ''}</p>
+                                                <small className="text-muted">Private</small>
+                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.pvt : ''}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -352,18 +244,18 @@ class Dashboard extends React.Component {
                                             <span className="icon-vaccine"></span>
                                         </div>
                                         <div className="inner innerbox">
-                                            <p className="fontnormal titlemob accessibility-plugin-ac">
+                                            <p className="fontnormal titlemob">
                                                 Total Registration
                                             </p>
                                             <h3 className="accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.total : ''}</h3>
                                             <div className="row m-0 r-0 w-100">
                                                 <div className="col pl-0">
-                                                    <small className="text-muted accessibility-plugin-ac">Age 18-44</small>
-                                                    <p className="d-block mb-0 font-weight-bold font-2 accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.cit_18_45 : ''}</p>
+                                                    <small className="text-muted">Age 18-44</small>
+                                                    <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.cit_18_45 : ''}</p>
                                                 </div>
                                                 <div className="col pr-0">
-                                                    <small className="text-muted accessibility-plugin-ac">Age 45+</small>
-                                                    <p className="d-block mb-0 font-weight-bold font-2 accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.cit_45_above : ''}</p>
+                                                    <small className="text-muted">Age 45+</small>
+                                                    <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.cit_45_above : ''}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -371,15 +263,18 @@ class Dashboard extends React.Component {
                                 </div>
                                 : ''}
                         </div>
-                        <div className="row">
+
+                        {/* Vaccination Trends Card Start*/}
+                        <VaccinationTrend get_stats={get_stats} get_public_stats={get_public_stats} />
+                        {/* Vaccination Trends Card Ends*/}
+                        {/* Vaccination Stats Start */}
+                        <div className="row mb-4">
                             <div className="col-lg-3 connectedSortable">
                                 <div className="card">
-                                    <div className="card-header">
-                                        Vaccination - Category
-                                    </div>
+                                    <div className="card-header card-title">Vaccination - Category</div>
                                     <div className="card-body m-auto">
                                         <Doughnut
-                                            width="350"
+                                            width="250"
                                             height="175"
                                             data={vcaccination_category_gender}
                                             options={{
@@ -389,7 +284,7 @@ class Dashboard extends React.Component {
                                         />
                                         <div className="mb-3"></div>
                                         <Doughnut
-                                            width="350"
+                                            width="250"
                                             height="175"
                                             data={vcaccination_category_vaccine}
                                             options={{
@@ -408,7 +303,7 @@ class Dashboard extends React.Component {
                                         <Pie
                                             width="375"
                                             height="375"
-                                            data={vcaccination_category_age}
+                                            data={vcaccinationbyage}
                                             options={{
                                                 responsive: false,
                                                 maintainAspectRatio: false,
@@ -419,7 +314,11 @@ class Dashboard extends React.Component {
 
                             </div>
                             <div className="col-lg-5 connectedSortable">
-                                <div className="card">
+                                <div className="card" style={{
+                                    'minHeight': '100%',
+                                    'height': '0',
+                                    'overflowY': 'auto'
+                                }}>
                                     <div className="card-header">
                                         Vaccination By State/UT
                                     </div>
@@ -427,26 +326,100 @@ class Dashboard extends React.Component {
                                         <div className="slim">
                                             <table className="table tblstates">
                                                 <thead>
-                                                    <th>
-                                                        State/UT
-                                                    </th>
-                                                    <th>
-                                                        Today
-                                                    </th>
-                                                    <th>
-                                                        Total
-                                                    </th>
+                                                    <th>State/UT</th>
+                                                    <th>Today</th>
+                                                    <th>Total</th>
                                                 </thead>
-
+                                                <tbody>
+                                                    {this.renderStateData(vaccinationbystate)}
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
-
                                 </div>
-
+                            </div>
+                        </div>
+                        {/* Vaccination Stats Ends  */}
+                        {/* Aefi and rural and urban graph container start*/}
+                        <div className="row mb-4">
+                            <div className="col-md-6">
+                                <div className="card">
+                                    <div className="card-header">AEFI Reported </div>
+                                    <div className="card-body">
+                                        <Line
+                                            height={300}
+                                            data={aefi_report}
+                                            options={
+                                                {
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Average Rainfall per month',
+                                                        fontSize: 20
+                                                    },
+                                                    legend: {
+                                                        display: true,
+                                                        position: 'right'
+                                                    }
+                                                }} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="card">
+                                    <div className="card-header">Rural Vs Urban Trend </div>
+                                    <div className="card-body">
+                                        <Line
+                                            height={300}
+                                            data={rural_urban_report}
+                                            options={
+                                                {
+                                                    responsive: true,
+                                                    maintainAspectRatio: false,
+                                                    title: {
+                                                        display: true,
+                                                        text: 'Average Rainfall per month',
+                                                        fontSize: 20
+                                                    },
+                                                    legend: {
+                                                        display: true,
+                                                        position: 'right'
+                                                    }
+                                                }} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Aefi and rural and urban graph container end*/}
+                        {/* Vacinnation Coverage Graph Start*/}
+                        <div className="row">
+                            <div className="col-md-12">
+                                <div className="card">
+                                    <div className="card-header">Vaccination Coverage</div>
+                                    <div className="card-body">
+                                        <Bar
+                                            height={400}
+                                            options={{
+                                                responsive: true,
+                                                maintainAspectRatio: false,
+                                                plugins: {
+                                                    title: {
+                                                        display: true,
+                                                        text: "Chart.js Bar Chart"
+                                                    }
+                                                }
+                                            }} data={vaccination_coverage} />
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
+                        {/* Vacinnation Coverage Graph End*/}
+                        {/* Registration Trends Card Start*/}
+                        <RegistrationTrend get_stats={get_stats} get_public_stats={get_public_stats} />
+                        {/* Registration Trends Card Ends*/}
+
                     </div>
                 </div>
             </div >
