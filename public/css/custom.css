@@ -37,7 +37,6 @@ body {
 }
 
 .small-box {
-    display: flex;
     min-height: 100%;
     align-items: center;
     padding: 10px 20px;

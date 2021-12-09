@@ -17,15 +17,12 @@ class Wrapper extends React.Component {
     render() {
         return (
             <Provider store={store} >
-
-                <h1>asdasd</h1>
                 <Router>
                     <Routes>
                         <Route exact path="/" element={<Dashboard />} />
                     </Routes>
                 </Router>
             </Provider>
-
         );
         return (
             <Provider store={store} >

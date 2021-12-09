@@ -56,9 +56,7 @@ export default async function callApi(url, method, data = {}, callback = null) {
         credentials: 'include',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-
+            'Accept': 'application/json'
         },
         data: data,
         params: method === 'GET' ? data : ''
