@@ -1,5 +1,5 @@
 import isExists from "./isExists";
-import moment from 'moment-timezone';
+
 /**
  * Check the value exist or not
  * @param {*} value 
@@ -16,7 +16,11 @@ export default function vaccinationCoverage(get_public_stats) {
     });
 
     vaccinationCoverage.forEach(function (vacc_data) {
-        label.push(vacc_data.state_name);
+        if (typeof vacc_data.district_name !== 'undefined') {
+            label.push(vacc_data.district_name);
+        } else if (typeof vacc_data.state_name !== 'undefined') {
+            label.push(vacc_data.state_name);
+        }
         dose1.push(vacc_data.partial_vaccinated);
         dose2.push(vacc_data.totally_vaccinated);
     });

@@ -82,22 +82,7 @@ class VaccinationTrend extends React.Component {
                                         hover: {
                                             mode: 'nearest',
                                             intersect: true
-                                        },
-                                        scales: {
-                                            xAxes: [{
-                                                display: true,
-                                                scaleLabel: {
-                                                    display: true,
-                                                    labelString: 'Month'
-                                                }
-                                            }],
-                                            yAxes: [{
-                                                display: true,
-                                                scaleLabel: {
-                                                    display: true,
-                                                },
-                                            }]
-                                        },
+                                        },                                        
                                         maintainAspectRatio: false,
                                         // title: {
                                         //     display: true,

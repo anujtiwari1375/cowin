@@ -1,9 +1,6 @@
 import React from "react";
 import Dashboard from "./Dashboard";
-// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import callApi from './functions/callApi';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import promise from 'redux-promise';

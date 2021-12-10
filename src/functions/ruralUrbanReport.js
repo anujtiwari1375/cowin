@@ -12,8 +12,7 @@ export default function aefiReport(get_stats) {
     var urban = [];
     var counter = 0;
 
-    ruralUrbanData.forEach(function (vacc_data) {
-        console.log()
+    ruralUrbanData.forEach(function (vacc_data) {        
         if (counter > 14) {
             label.push(moment(vacc_data.vaccine_date).format('DD MMM'));
             rural.push(vacc_data.rural);

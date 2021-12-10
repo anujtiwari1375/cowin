@@ -9,7 +9,7 @@ class Aefi extends React.Component {
 
         return (
             <div className="card">
-                <div className="card-header">AEFI Reported </div>
+                <div className="card-header card-title">AEFI Reported </div>
                 <div className="card-body">
                     <Line
                         height={300}

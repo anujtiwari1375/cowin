@@ -1,5 +1,4 @@
 import { GETPUBLICSTATS, GETSTATS, GETDiSTRICT } from '../actions/DashboardAction';
-import mapKeys from 'lodash/mapKeys';
 
 export default function (state = {}, action) {
     switch (action.type) {

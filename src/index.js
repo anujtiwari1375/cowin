@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Dashboard from './Dashboard';
 import Wrapper from './Wrapper';
 import reportWebVitals from './reportWebVitals';
 

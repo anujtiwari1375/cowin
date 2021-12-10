@@ -6,13 +6,15 @@ class VaccinationCoverage extends React.Component {
 
     render() {
         var get_public_stats = this.props.get_public_stats;
-        const vaccination_coverage = vaccinationCoverage(get_public_stats);
-
+        const vaccination_coverage = vaccinationCoverage(get_public_stats);        
+        if (typeof vaccination_coverage.labels !== 'undefined' && (vaccination_coverage.labels).length < 1) {
+            return <div></div>
+        }
         return (
             <div className="row mb-4">
                 <div className="col-md-12">
                     <div className="card">
-                        <div className="card-header">Vaccination Coverage</div>
+                        <div className="card-header card-title">Vaccination Coverage</div>
                         <div className="card-body">
                             <Bar
                                 height={400}

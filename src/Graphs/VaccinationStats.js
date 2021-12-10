@@ -11,6 +11,32 @@ const _ = {
 
 class VaccinationStats extends React.Component {
 
+
+    renderLabel(state_data) {
+        if (typeof state_data.session_site_name !== 'undefined') {
+            return state_data.session_site_name
+        } else if (typeof state_data.district_name !== 'undefined') {
+            return state_data.district_name
+        } else {
+            return state_data.state_name
+        }
+    }
+
+    renderTableHeader(vaccinationbystate) {
+        if (vaccinationbystate.length > 0) {
+            var state_data = vaccinationbystate[0];
+            if (typeof state_data.session_site_name !== 'undefined') {
+                return 'Vaccination By Centers';
+            } else if (typeof state_data.district_name !== 'undefined') {
+                return 'Vaccination By Districts';
+            } else {
+                return 'Vaccination By State/UT';
+            }
+        } else {
+            return 'Vaccination By State/UT';
+        }
+    }
+
     renderStateData(vaccinationbystate) {
 
         vaccinationbystate.sort(function (a, b) {
@@ -18,15 +44,17 @@ class VaccinationStats extends React.Component {
         });
 
 
-        return _.map(vaccinationbystate, state_data => {
+        return _.map(vaccinationbystate, (state_data, index) => {
             return (
-                <tr>
+                <tr key={`statedata${index}`}>
                     <td className="title" style={{
                         'width': '50%',
                         'fontSize': '13px',
                         'color': '#007bff',
                         'fontWeight': '500'
-                    }}>{state_data.state_name}</td>
+                    }}>
+                        {this.renderLabel(state_data)}
+                    </td>
                     <td className="text-right" style={{
                         'width': '25%',
                         'fontSize': '15px',
@@ -86,7 +114,7 @@ class VaccinationStats extends React.Component {
                 <div className="col-lg-4 connectedSortable">
 
                     <div className="card">
-                        <div className="card-header">Vaccination by Age</div>
+                        <div className="card-header card-title">Vaccination by Age</div>
                         <div className="card-body m-auto">
                             <Pie
                                 width="375"
@@ -107,16 +135,18 @@ class VaccinationStats extends React.Component {
                         'height': '0',
                         'overflowY': 'auto'
                     }}>
-                        <div className="card-header">
-                            Vaccination By State/UT
+                        <div className="card-header card-title">
+                            {this.renderTableHeader(vaccinationbystate)}
                         </div>
                         <div className="card-body">
                             <div className="slim">
                                 <table className="table tblstates">
                                     <thead>
-                                        <th>State/UT</th>
-                                        <th>Today</th>
-                                        <th>Total</th>
+                                        <tr>
+                                            <th>State/UT</th>
+                                            <th className="text-right">Today</th>
+                                            <th className="text-right">Total</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         {this.renderStateData(vaccinationbystate)}

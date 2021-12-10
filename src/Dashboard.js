@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from 'react-redux';
-import map from 'lodash/map';
 import VaccinationTrend from './Graphs/VaccinationTrend';
 import VaccinationData from './Graphs/VaccinationData';
 import VaccinationStats from './Graphs/VaccinationStats';
@@ -17,15 +16,12 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearSca
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, ...registerables);
 
-const _ = {
-    map: map
-};
-
 
 class Dashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            selected_state: '',
             districtArray: [{
                 district_name: 'Select District',
                 district_id: ''
@@ -73,10 +69,12 @@ class Dashboard extends React.Component {
     }
 
     selectState(e) {
-        var state_code = e.target.value;
-        console.log("state_id", state_code);
+        var state_code = e.target.value;        
         this.props.getPublicStats(state_code);
         this.props.getStats(state_code);
+        this.setState({
+            selected_state: state_code
+        });
         this.props.getDistrict(state_code, (response) => {
             response.unshift({
                 district_name: 'Select District',
@@ -90,11 +88,14 @@ class Dashboard extends React.Component {
 
     districtSelected(e) {
         var district_code = e.target.value;
-        console.log("district_code", district_code);
+        var state_code = this.state.selected_state;        
+        this.props.getPublicStats(state_code, district_code);
+        this.props.getStats(state_code, district_code);
+
     }
 
     render() {
-        const { get_public_stats, get_stats, get_state } = this.props;
+        const { get_public_stats, get_stats } = this.props;
         var districtArray = this.state.districtArray;
         return (
             <div className="content-wrapper" style={{ "minHeight": '330px' }}>

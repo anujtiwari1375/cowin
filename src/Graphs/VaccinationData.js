@@ -12,7 +12,7 @@ class VaccinationData extends React.Component {
 
                     <div className="small-box bg-white cm-vaccinated-box">
                         <div className="float-left">
-                            <img src={ASSETS_URL + "vaccine.png"} height={45} className="rounded-circle border-0 m-w-45 w-100 m-h-45" />
+                            <img src={ASSETS_URL + "vaccine.png"} alt="vaccination" height={45} className="rounded-circle border-0 m-w-45 w-100 m-h-45" />
                         </div>
                         <div className="inner innerbox ml-2" style={{
                             paddingLeft: '55px'
@@ -42,7 +42,7 @@ class VaccinationData extends React.Component {
                             'padding': '5px',
                             'background': '#E8F1F9'
                         }}>
-                            <img src={ASSETS_URL + "building.png"} width={40} style={{ 'height': 'auto' }} className="rounded-circle border-0 m-w-45 m-h-45" />
+                            <img src={ASSETS_URL + "building.png"} alt="sites" width={40} style={{ 'height': 'auto' }} className="rounded-circle border-0 m-w-45 m-h-45" />
                         </div>
                         <div className="inner innerbox ml-2" style={{
                             paddingLeft: '55px'
@@ -73,7 +73,7 @@ class VaccinationData extends React.Component {
                                 'padding': '5px',
                                 'background': '#E8F1F9'
                             }}>
-                                <img src={ASSETS_URL + "group.png"} width={40} style={{ 'height': 'auto' }} className="rounded-circle border-0 m-w-45 m-h-45" />
+                                <img src={ASSETS_URL + "group.png"} width={40} alt="registration" style={{ 'height': 'auto' }} className="rounded-circle border-0 m-w-45 m-h-45" />
                             </div>
                             <div className="inner innerbox ml-2" style={{
                                 paddingLeft: '55px'

@@ -9,7 +9,7 @@ class RuralUrbanTrend extends React.Component {
 
         return (
             <div className="card">
-                <div className="card-header">Rural Vs Urban Trend </div>
+                <div className="card-header card-title">Rural Vs Urban Trend </div>
                 <div className="card-body">
                     <Line
                         height={300}
