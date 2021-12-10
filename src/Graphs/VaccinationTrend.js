@@ -22,22 +22,22 @@ class VaccinationTrend extends React.Component {
     render() {
         var get_public_stats = this.props.get_public_stats;
         var get_stats = this.props.get_stats;
-        var vcaccination_dose_today = {};
+        var vcaccination_dose = {};
         if (this.state.vaccination_type === 'dose') {
             if (this.state.vaccination_time === 'today') {
-                vcaccination_dose_today = vcaccinationTrends.vcaccinationDoseToday(get_public_stats);
+                vcaccination_dose = vcaccinationTrends.vcaccinationDoseToday(get_public_stats);
             } else if (this.state.vaccination_time === 'last_30_days') {
-                vcaccination_dose_today = vcaccinationTrends.vcaccinationDoseLast30Days(get_stats);
+                vcaccination_dose = vcaccinationTrends.vcaccinationDoseLast30Days(get_stats);
             } else if (this.state.vaccination_time === 'all') {
-                vcaccination_dose_today = vcaccinationTrends.vcaccinationDoseAll(get_stats);
+                vcaccination_dose = vcaccinationTrends.vcaccinationDoseAll(get_stats);
             }
         } else if (this.state.vaccination_type === 'age') {
             if (this.state.vaccination_time === 'today') {
-                vcaccination_dose_today = vcaccinationTrends.vcaccinationAgeToday(get_public_stats);
+                vcaccination_dose = vcaccinationTrends.vcaccinationAgeToday(get_public_stats);
             } else if (this.state.vaccination_time === 'last_30_days') {
-                vcaccination_dose_today = vcaccinationTrends.vcaccinationAgeLast30Days(get_stats);
+                vcaccination_dose = vcaccinationTrends.vcaccinationAgeLast30Days(get_stats);
             } else if (this.state.vaccination_time === 'all') {
-                vcaccination_dose_today = vcaccinationTrends.vcaccinationAgeAll(get_stats);
+                vcaccination_dose = vcaccinationTrends.vcaccinationAgeAll(get_stats);
             }
         }
         return (
@@ -67,7 +67,7 @@ class VaccinationTrend extends React.Component {
                         <div className="card-body">
                             <Line
                                 height={350}
-                                data={vcaccination_dose_today}
+                                data={vcaccination_dose}
                                 options={
                                     {
                                         responsive: true,

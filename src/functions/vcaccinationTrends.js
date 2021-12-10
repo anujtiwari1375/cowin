@@ -136,7 +136,7 @@ var vcaccinationTrends = {
                     label: "Dose Two",
                     data: dose_two,
                     fill: true,
-                    lineTension: 0.5,                    
+                    lineTension: 0.5,
                     backgroundColor: ["rgb(255,246,231,1)"],
                     borderColor: "#FBA714"
                 }
@@ -177,7 +177,7 @@ var vcaccinationTrends = {
                     data: total,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#E7FDFF",
+                    backgroundColor: ["rgb(252,243,241,0.3)"],
                     borderColor: "#DE8971"
                 },
                 {
@@ -185,7 +185,7 @@ var vcaccinationTrends = {
                     data: vac_18_45,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(231,253,255,0.4)"],
                     borderColor: "#14E8FB"
                 },
                 {
@@ -193,7 +193,7 @@ var vcaccinationTrends = {
                     data: vac_45_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(246,250,250,0.5)"],
                     borderColor: "#A7D0CD"
                 },
                 {
@@ -201,7 +201,7 @@ var vcaccinationTrends = {
                     data: vac_60_above,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(216,229,247,0.9)"],
                     borderColor: "#5A8DEE"
                 }
             ]
@@ -238,7 +238,7 @@ var vcaccinationTrends = {
                     data: total,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#E7FDFF",
+                    backgroundColor: ["rgb(252,243,241,0.3)"],
                     borderColor: "#DE8971"
                 },
                 {
@@ -246,7 +246,7 @@ var vcaccinationTrends = {
                     data: vac_18_45,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(231,253,255,0.4)"],
                     borderColor: "#14E8FB"
                 },
                 {
@@ -254,7 +254,7 @@ var vcaccinationTrends = {
                     data: vac_45_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(246,250,250,0.5)"],
                     borderColor: "#A7D0CD"
                 },
                 {
@@ -262,7 +262,7 @@ var vcaccinationTrends = {
                     data: vac_60_above,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(216,229,247,0.9)"],
                     borderColor: "#5A8DEE"
                 }
             ]
@@ -299,7 +299,7 @@ var vcaccinationTrends = {
                     data: total,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#E7FDFF",
+                    backgroundColor: ["rgb(252,243,241,0.3)"],
                     borderColor: "#DE8971"
                 },
                 {
@@ -307,7 +307,7 @@ var vcaccinationTrends = {
                     data: vac_18_45,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(231,253,255,0.4)"],
                     borderColor: "#14E8FB"
                 },
                 {
@@ -315,7 +315,7 @@ var vcaccinationTrends = {
                     data: vac_45_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(246,250,250,0.5)"],
                     borderColor: "#A7D0CD"
                 },
                 {
@@ -323,7 +323,7 @@ var vcaccinationTrends = {
                     data: vac_60_above,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(216,229,247,0.9)"],
                     borderColor: "#5A8DEE"
                 }
             ]
