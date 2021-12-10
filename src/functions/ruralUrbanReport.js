@@ -6,13 +6,12 @@ import moment from 'moment-timezone';
  */
 export default function aefiReport(get_stats) {
 
-    var ruralUrbanData = isExists(get_stats) ? get_stats.last30DaysVaccination : [];
+    var ruralUrbanData = isExists(get_stats) && isExists(get_stats.last30DaysVaccination) ? get_stats.last30DaysVaccination : [];
     var label = [];
     var rural = [];
     var urban = [];
     var counter = 0;
-    // ruralUrbanData.reverse();
-    console.log("ruralUrbanData ruralUrbanData", ruralUrbanData);
+
     ruralUrbanData.forEach(function (vacc_data) {
         console.log()
         if (counter > 14) {
@@ -33,7 +32,7 @@ export default function aefiReport(get_stats) {
                 data: rural,
                 fill: true,
                 lineTension: 0.5,
-                // backgroundColor: "#FEECF4",
+                backgroundColor: ["rgb(231,253,255,0.5)"],
                 borderColor: "#14E8FB"
             },
             {
@@ -41,7 +40,7 @@ export default function aefiReport(get_stats) {
                 data: urban,
                 fill: true,
                 lineTension: 0.5,
-                // backgroundColor: "#FFF6E7",
+                backgroundColor: ["rgb(216,243,254,1)"],                
                 borderColor: "#5A8DEE"
             },
         ]

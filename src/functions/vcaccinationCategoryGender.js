@@ -4,9 +4,9 @@ import isExists from "./isExists";
  * @param {*} value 
  */
 export default function vcaccinationCategoryGender(get_public_stats) {
-    var male_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.male : '';
-    var female_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.female : '';
-    var others_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.others : '';
+    var male_vacination = isExists(get_public_stats) && isExists(get_public_stats.topBlock.vaccination) ? get_public_stats.topBlock.vaccination.male : '';
+    var female_vacination = isExists(get_public_stats) && isExists(get_public_stats.topBlock.vaccination) ? get_public_stats.topBlock.vaccination.female : '';
+    var others_vacination = isExists(get_public_stats) && isExists(get_public_stats.topBlock.vaccination) ? get_public_stats.topBlock.vaccination.others : '';
 
     var vcaccination_category_gender = {
         labels: [

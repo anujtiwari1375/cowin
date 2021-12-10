@@ -70,16 +70,44 @@ class VaccinationTrend extends React.Component {
                                 data={vcaccination_dose_today}
                                 options={
                                     {
-                                        maintainAspectRatio: false,
+                                        responsive: true,
                                         title: {
                                             display: true,
-                                            text: 'Average Rainfall per month',
-                                            fontSize: 20
+                                            text: 'Chart.js Line Chart'
                                         },
-                                        legend: {
-                                            display: true,
-                                            position: 'right'
-                                        }
+                                        tooltips: {
+                                            mode: 'index',
+                                            intersect: false,
+                                        },
+                                        hover: {
+                                            mode: 'nearest',
+                                            intersect: true
+                                        },
+                                        scales: {
+                                            xAxes: [{
+                                                display: true,
+                                                scaleLabel: {
+                                                    display: true,
+                                                    labelString: 'Month'
+                                                }
+                                            }],
+                                            yAxes: [{
+                                                display: true,
+                                                scaleLabel: {
+                                                    display: true,
+                                                },
+                                            }]
+                                        },
+                                        maintainAspectRatio: false,
+                                        // title: {
+                                        //     display: true,
+                                        //     text: 'Average Rainfall per month',
+                                        //     fontSize: 20
+                                        // },
+                                        // legend: {
+                                        //     display: true,
+                                        //     position: 'right'
+                                        // }
                                     }} />
                         </div>
                     </div>

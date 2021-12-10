@@ -1,4 +1,5 @@
 import callApi from '../functions/callApi';
+import moment from 'moment-timezone';
 import $ from 'jquery';
 import district from './district.json';
 
@@ -8,15 +9,17 @@ export const GETDiSTRICT = "GETDiSTRICT";
 
 
 
-export function getPublicStats(state_id = '', district_id = '') {
-    var result = $.getJSON(`https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?state_id=${state_id}&district_id=${district_id}&date=2021-12-09`, function (data) {
+export function getPublicStats(state_id = '', district_id = '') {    
+    var date = moment().tz('Asia/Calcutta|Asia/Kolkata').format('YYYY-MM-DD');
+    var result = $.getJSON(`https://api.cowin.gov.in/api/v1/reports/v2/getPublicReports?state_id=${state_id}&district_id=${district_id}&date=${date}`, function (data) {
         return data
     });
     return { type: GETPUBLICSTATS, payload: result };
 }
 
 export function getStats(state_id = '', district_id = '') {
-    var result = $.getJSON(`https://api.cowin.gov.in/api/v1/reports/v2/getVacPublicReports?state_id=${state_id}&district_id=${district_id}&date=2021-12-09`, function (data) {
+    var date = moment().tz('Asia/Calcutta|Asia/Kolkata').format('YYYY-MM-DD');
+    var result = $.getJSON(`https://api.cowin.gov.in/api/v1/reports/v2/getVacPublicReports?state_id=${state_id}&district_id=${district_id}&date=${date}`, function (data) {
         return data
     });
     return { type: GETSTATS, payload: result };

@@ -4,9 +4,9 @@ import isExists from "./isExists";
  * @param {*} value 
  */
 export default function vcaccinationCategoryVaccine(get_public_stats) {
-    var covishield_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.covishield : '';
-    var covaxin_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.covaxin : '';
-    var sputnik_vacination = isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.sputnik : '';
+    var covishield_vacination = isExists(get_public_stats) && isExists(get_public_stats.topBlock.vaccination) ? get_public_stats.topBlock.vaccination.covishield : '';
+    var covaxin_vacination = isExists(get_public_stats) && isExists(get_public_stats.topBlock.vaccination) ? get_public_stats.topBlock.vaccination.covaxin : '';
+    var sputnik_vacination = isExists(get_public_stats) && isExists(get_public_stats.topBlock.vaccination) ? get_public_stats.topBlock.vaccination.sputnik : '';
 
     var vcaccination_category_vaccine = {
         labels: [

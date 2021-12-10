@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
  */
 export default function vaccinationCoverage(get_public_stats) {
 
-    var vaccinationCoverage = isExists(get_public_stats) ? get_public_stats.getBeneficiariesGroupBy : [];
+    var vaccinationCoverage = isExists(get_public_stats) && isExists(get_public_stats.getBeneficiariesGroupBy) ? get_public_stats.getBeneficiariesGroupBy : [];
     var label = [];
     var dose1 = [];
     var dose2 = [];

@@ -29,7 +29,9 @@ var registrationTrends = {
             showTooltips: true,
             tooltips: {
                 mode: 'index',
-                intersect: false
+            },
+            hover: {
+                mode: 'nearest',
             },
             datasets: [
                 {
@@ -37,7 +39,7 @@ var registrationTrends = {
                     data: total,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#E7FDFF",
+                    backgroundColor: ["rgb(252,243,241,0.2)"],
                     borderColor: "#DE8971"
                 },
                 {
@@ -45,7 +47,7 @@ var registrationTrends = {
                     data: age_18_44,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(231,253,255,0.2)"],
                     borderColor: "#14E8FB"
                 },
                 {
@@ -53,7 +55,7 @@ var registrationTrends = {
                     data: age_45_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(246,250,250, 0.4)"],
                     borderColor: "#A7D0CD"
                 },
                 {
@@ -61,7 +63,7 @@ var registrationTrends = {
                     data: above_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    "backgroundColor": ["rgb(205,221,250, 0.9)"],
                     borderColor: "#5A8DEE"
                 }
             ]
@@ -98,7 +100,7 @@ var registrationTrends = {
                     data: total,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#E7FDFF",
+                    backgroundColor: ["rgb(252,243,241,0.2)"],
                     borderColor: "#DE8971"
                 },
                 {
@@ -106,7 +108,7 @@ var registrationTrends = {
                     data: age_18_44,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(231,253,255,0.2)"],
                     borderColor: "#14E8FB"
                 },
                 {
@@ -114,7 +116,7 @@ var registrationTrends = {
                     data: age_45_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(246,250,250, 0.4)"],
                     borderColor: "#A7D0CD"
                 },
                 {
@@ -122,7 +124,7 @@ var registrationTrends = {
                     data: above_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    "backgroundColor": ["rgb(205,221,250, 0.9)"],
                     borderColor: "#5A8DEE"
                 }
             ]
@@ -131,13 +133,13 @@ var registrationTrends = {
     },
     registrationTrendAll: function (get_stats) {
 
-        var regReportData = isExists(get_stats) && isExists(get_stats.regWeekReportData) ? get_stats.regWeekReportData : [];
+        var regWeekReportData = isExists(get_stats) && isExists(get_stats.regWeekReportData) ? get_stats.regWeekReportData : [];
         var label = [];
         var total = [];
         var age_18_44 = [];
         var age_45_60 = [];
         var above_60 = [];
-        regReportData.forEach(function (vacc_data) {
+        regWeekReportData.forEach(function (vacc_data) {
             label.push(vacc_data.label);
             total.push(vacc_data.total);
             age_18_44.push(vacc_data.age18);
@@ -145,7 +147,7 @@ var registrationTrends = {
             above_60.push(vacc_data.age60);
         });
 
-        const registration_trend_30_days = {
+        const registration_trend_all = {
             labels: label,
             showTooltips: true,
             tooltips: {
@@ -158,7 +160,7 @@ var registrationTrends = {
                     data: total,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#E7FDFF",
+                    backgroundColor: ["rgb(252,243,241,0.2)"],
                     borderColor: "#DE8971"
                 },
                 {
@@ -166,7 +168,7 @@ var registrationTrends = {
                     data: age_18_44,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(231,253,255,0.2)"],
                     borderColor: "#14E8FB"
                 },
                 {
@@ -174,7 +176,7 @@ var registrationTrends = {
                     data: age_45_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(246,250,250, 0.4)"],
                     borderColor: "#A7D0CD"
                 },
                 {
@@ -182,12 +184,12 @@ var registrationTrends = {
                     data: above_60,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    "backgroundColor": ["rgb(205,221,250, 0.9)"],
                     borderColor: "#5A8DEE"
                 }
             ]
         };
-        return registration_trend_30_days;
+        return registration_trend_all;
     }
 };
 export default registrationTrends;

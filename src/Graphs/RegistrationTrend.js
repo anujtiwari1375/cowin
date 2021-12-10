@@ -25,7 +25,10 @@ class RegistrationTrend extends React.Component {
         } else if (this.state.vaccination_time === 'all') {
             registration_trend_today = registrationTrends.registrationTrendAll(get_stats);
         }
-
+        console.log("registration_trend_today inner", (registration_trend_today.labels).length);
+        if (typeof registration_trend_today.labels !== 'undefined' && (registration_trend_today.labels).length < 1) {
+            return <div></div>
+        }
         return (
             <div className="row mb-4">
                 <div className="col-md-12">

@@ -23,17 +23,7 @@ class Wrapper extends React.Component {
                     </Routes>
                 </Router>
             </Provider>
-        );
-        return (
-            <Provider store={store} >
-                <h1>asdasd</h1>
-                <Router>
-                    <Routes>
-                        <Route exact path="/" component={Dashboard} />
-                    </Routes>
-                </Router>
-            </Provider>
-        );
+        );        
     }
 }
 

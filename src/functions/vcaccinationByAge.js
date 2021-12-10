@@ -4,9 +4,9 @@ import isExists from "./isExists";
  * @param {*} value 
  */
 export default function vcaccinationByAge(get_public_stats) {
-    var vac_18_45 = isExists(get_public_stats) ? get_public_stats.vaccinationByAge.vac_18_45 : '';
-    var vac_45_60 = isExists(get_public_stats) ? get_public_stats.vaccinationByAge.vac_45_60 : '';
-    var above_60 = isExists(get_public_stats) ? get_public_stats.vaccinationByAge.above_60 : '';
+    var vac_18_45 = isExists(get_public_stats) && isExists(get_public_stats.vaccinationByAge) ? get_public_stats.vaccinationByAge.vac_18_45 : '';
+    var vac_45_60 = isExists(get_public_stats) && isExists(get_public_stats.vaccinationByAge) ? get_public_stats.vaccinationByAge.vac_45_60 : '';
+    var above_60 = isExists(get_public_stats) && isExists(get_public_stats.vaccinationByAge) ? get_public_stats.vaccinationByAge.above_60 : '';
 
     var vcaccinationbyage = {
         labels: [

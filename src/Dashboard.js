@@ -1,20 +1,18 @@
 import React from "react";
 import { connect } from 'react-redux';
-import isExists from './functions/isExists';
 import map from 'lodash/map';
-import vcaccinationCategoryGender from './functions/vcaccinationCategoryGender';
-import vcaccinationCategoryVaccine from './functions/vcaccinationCategoryVaccine';
-import vcaccinationByAge from './functions/vcaccinationByAge';
-import aefiReport from './functions/aefiReport';
-import ruralUrbanReport from './functions/ruralUrbanReport';
 import VaccinationTrend from './Graphs/VaccinationTrend';
+import VaccinationData from './Graphs/VaccinationData';
+import VaccinationStats from './Graphs/VaccinationStats';
+import Aefi from './Graphs/Aefi';
+import RuralUrbanTrend from './Graphs/RuralUrbanTrend';
+import VaccinationCoverage from './Graphs/VaccinationCoverage';
 import RegistrationTrend from './Graphs/RegistrationTrend';
-import vaccinationCoverage from './functions/vaccinationCoverage';
+
 import { getPublicStats, getStats, getDistrict } from './actions/DashboardAction';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, registerables } from 'chart.js';
-import { Doughnut, Pie } from 'react-chartjs-2';
-import { Line } from 'react-chartjs-2';
-import { Bar } from "react-chartjs-2";
+
+
 
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, ...registerables);
@@ -95,61 +93,11 @@ class Dashboard extends React.Component {
         console.log("district_code", district_code);
     }
 
-    renderStateData(vaccinationbystate) {
-
-        vaccinationbystate.sort(function (a, b) {
-            return parseFloat(b.total) - parseFloat(a.total);
-        });
-
-
-        return _.map(vaccinationbystate, state_data => {
-            return (
-                <tr>
-                    <td className="title" style={{
-                        'width': '50%',
-                        'fontSize': '13px',
-                        'color': '#007bff',
-                        'fontWeight': '500'
-                    }}>{state_data.state_name}</td>
-                    <td className="text-right" style={{
-                        'width': '25%',
-                        'fontSize': '15px',
-                        'color': '#12226f',
-                        'fontWeight': '600'
-                    }}>
-                        {state_data.today}
-                    </td>
-                    <td className="text-right" style={{
-                        'width': '25%',
-                        'fontSize': '15px',
-                        'color': '#12226f',
-                        'fontWeight': '600'
-                    }}>
-                        {state_data.total}
-                    </td>
-                </tr>
-            );
-        });
-    }
-
     render() {
         const { get_public_stats, get_stats, get_state } = this.props;
-        console.log("get_stats in render function", get_public_stats);
-
         var districtArray = this.state.districtArray;
-        var vcaccination_category_gender = vcaccinationCategoryGender(get_public_stats);
-        var vcaccination_category_vaccine = vcaccinationCategoryVaccine(get_public_stats);
-        var vcaccinationbyage = vcaccinationByAge(get_public_stats);
-        var vaccinationbystate = isExists(get_public_stats) ? get_public_stats.getBeneficiariesGroupBy : [];
-
-        const aefi_report = aefiReport(get_public_stats);
-        const rural_urban_report = ruralUrbanReport(get_stats);
-        const vaccination_coverage = vaccinationCoverage(get_public_stats);
-
-
         return (
             <div className="content-wrapper" style={{ "minHeight": '330px' }}>
-
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12 clearfix">
@@ -182,239 +130,28 @@ class Dashboard extends React.Component {
                         </div>
                     </div>
                 </div>
-
                 {/* Main Section Container */}
                 <div className="content">
                     <div className="container-fluid main-card-block">
-
-                        <div className="row mb-4">
-                            {/* Total Vaccination Doses */}
-                            <div className={isExists(get_public_stats) && isExists(get_public_stats.topBlock.registration.total) ? 'col-6 col-sm-12 margin-b cardblockcls col-lg-4' : 'col-6 col-sm-12 margin-b cardblockcls col-lg-6'}>
-                                <div className="small-box bg-white cm-vaccinated-box">
-                                    <div className="icon icon-bg-vaccine">
-                                        <span className="icon-vaccine"></span>
-                                    </div>
-                                    <div className="inner innerbox">
-                                        <p className="fontnormal titlemob">
-                                            Total Vaccination Doses
-                                        </p>
-                                        <h3 className="accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.total : ''}</h3>
-                                        <div className="row m-0 r-0 w-100">
-                                            <div className="col pl-0">
-                                                <small className="text-muted">Dose 1</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.tot_dose_1 : ''}</p>
-                                            </div>
-                                            <div className="col pr-0">
-                                                <small className="text-muted">Dose 2</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.vaccination.tot_dose_2 : ''}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Site Conducting Vaccination */}
-                            <div className={isExists(get_public_stats) && isExists(get_public_stats.topBlock.registration.total) ? 'col-6 col-sm-12 margin-b cardblockcls col-lg-4' : 'col-6 col-sm-12 margin-b cardblockcls col-lg-6'}>
-                                <div className="small-box bg-white cm-vaccinated-box">
-                                    <div className="icon icon-bg-vaccine">
-                                        <span className="icon-vaccine"></span>
-                                    </div>
-                                    <div className="inner innerbox">
-                                        <p className="fontnormal titlemob">
-                                            Site Conducting Vaccination
-                                        </p>
-                                        <h3 className="accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.total : ''}</h3>
-                                        <div className="row m-0 r-0 w-100">
-                                            <div className="col pl-0">
-                                                <small className="text-muted">Government</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.govt : ''}</p>
-                                            </div>
-                                            <div className="col pr-0">
-                                                <small className="text-muted">Private</small>
-                                                <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.sites.pvt : ''}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Total Registration */}
-                            {isExists(get_public_stats) && isExists(get_public_stats.topBlock.registration.total) ?
-                                <div className="col-6 col-sm-12 margin-b cardblockcls col-lg-4">
-                                    <div className="small-box bg-white cm-vaccinated-box">
-                                        <div className="icon icon-bg-vaccine">
-                                            <span className="icon-vaccine"></span>
-                                        </div>
-                                        <div className="inner innerbox">
-                                            <p className="fontnormal titlemob">
-                                                Total Registration
-                                            </p>
-                                            <h3 className="accessibility-plugin-ac">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.total : ''}</h3>
-                                            <div className="row m-0 r-0 w-100">
-                                                <div className="col pl-0">
-                                                    <small className="text-muted">Age 18-44</small>
-                                                    <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.cit_18_45 : ''}</p>
-                                                </div>
-                                                <div className="col pr-0">
-                                                    <small className="text-muted">Age 45+</small>
-                                                    <p className="d-block mb-0 font-weight-bold font-2">{isExists(get_public_stats) ? get_public_stats.topBlock.registration.cit_45_above : ''}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                : ''}
-                        </div>
-
+                        <VaccinationData get_public_stats={get_public_stats} />
                         {/* Vaccination Trends Card Start*/}
                         <VaccinationTrend get_stats={get_stats} get_public_stats={get_public_stats} />
                         {/* Vaccination Trends Card Ends*/}
                         {/* Vaccination Stats Start */}
-                        <div className="row mb-4">
-                            <div className="col-lg-3 connectedSortable">
-                                <div className="card">
-                                    <div className="card-header card-title">Vaccination - Category</div>
-                                    <div className="card-body m-auto">
-                                        <Doughnut
-                                            width="250"
-                                            height="175"
-                                            data={vcaccination_category_gender}
-                                            options={{
-                                                responsive: false,
-                                                maintainAspectRatio: false,
-                                            }}
-                                        />
-                                        <div className="mb-3"></div>
-                                        <Doughnut
-                                            width="250"
-                                            height="175"
-                                            data={vcaccination_category_vaccine}
-                                            options={{
-                                                responsive: false,
-                                                maintainAspectRatio: false,
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-lg-4 connectedSortable">
-
-                                <div className="card">
-                                    <div className="card-header">Vaccination by Age</div>
-                                    <div className="card-body m-auto">
-                                        <Pie
-                                            width="375"
-                                            height="375"
-                                            data={vcaccinationbyage}
-                                            options={{
-                                                responsive: false,
-                                                maintainAspectRatio: false,
-                                            }}
-                                        />
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="col-lg-5 connectedSortable">
-                                <div className="card" style={{
-                                    'minHeight': '100%',
-                                    'height': '0',
-                                    'overflowY': 'auto'
-                                }}>
-                                    <div className="card-header">
-                                        Vaccination By State/UT
-                                    </div>
-                                    <div className="card-body">
-                                        <div className="slim">
-                                            <table className="table tblstates">
-                                                <thead>
-                                                    <th>State/UT</th>
-                                                    <th>Today</th>
-                                                    <th>Total</th>
-                                                </thead>
-                                                <tbody>
-                                                    {this.renderStateData(vaccinationbystate)}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <VaccinationStats get_public_stats={get_public_stats} />
                         {/* Vaccination Stats Ends  */}
                         {/* Aefi and rural and urban graph container start*/}
                         <div className="row mb-4">
                             <div className="col-md-6">
-                                <div className="card">
-                                    <div className="card-header">AEFI Reported </div>
-                                    <div className="card-body">
-                                        <Line
-                                            height={300}
-                                            data={aefi_report}
-                                            options={
-                                                {
-                                                    responsive: true,
-                                                    maintainAspectRatio: false,
-                                                    title: {
-                                                        display: true,
-                                                        text: 'Average Rainfall per month',
-                                                        fontSize: 20
-                                                    },
-                                                    legend: {
-                                                        display: true,
-                                                        position: 'right'
-                                                    }
-                                                }} />
-                                    </div>
-                                </div>
+                                <Aefi get_public_stats={get_public_stats} />
                             </div>
                             <div className="col-md-6">
-                                <div className="card">
-                                    <div className="card-header">Rural Vs Urban Trend </div>
-                                    <div className="card-body">
-                                        <Line
-                                            height={300}
-                                            data={rural_urban_report}
-                                            options={
-                                                {
-                                                    responsive: true,
-                                                    maintainAspectRatio: false,
-                                                    title: {
-                                                        display: true,
-                                                        text: 'Average Rainfall per month',
-                                                        fontSize: 20
-                                                    },
-                                                    legend: {
-                                                        display: true,
-                                                        position: 'right'
-                                                    }
-                                                }} />
-                                    </div>
-                                </div>
+                                <RuralUrbanTrend get_stats={get_stats} />
                             </div>
                         </div>
                         {/* Aefi and rural and urban graph container end*/}
                         {/* Vacinnation Coverage Graph Start*/}
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="card">
-                                    <div className="card-header">Vaccination Coverage</div>
-                                    <div className="card-body">
-                                        <Bar
-                                            height={400}
-                                            options={{
-                                                responsive: true,
-                                                maintainAspectRatio: false,
-                                                plugins: {
-                                                    title: {
-                                                        display: true,
-                                                        text: "Chart.js Bar Chart"
-                                                    }
-                                                }
-                                            }} data={vaccination_coverage} />
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                        <VaccinationCoverage get_public_stats={get_public_stats} />
                         {/* Vacinnation Coverage Graph End*/}
                         {/* Registration Trends Card Start*/}
                         <RegistrationTrend get_stats={get_stats} get_public_stats={get_public_stats} />

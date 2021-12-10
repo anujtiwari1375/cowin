@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
  */
 export default function aefiReport(get_public_stats) {
 
-    var aefiData = isExists(get_public_stats) ? get_public_stats.last30DaysAefi : [];
+    var aefiData = isExists(get_public_stats) && isExists(get_public_stats.last30DaysAefi) ? get_public_stats.last30DaysAefi : [];
     var label = [];
     var aefi = [];
     aefiData.forEach(function (vacc_data) {

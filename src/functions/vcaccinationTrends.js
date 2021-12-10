@@ -8,7 +8,7 @@ import moment from 'moment-timezone';
 var vcaccinationTrends = {
 
     vcaccinationDoseAll: function (get_stats) {
-        var vcaccinationDoseAll = isExists(get_stats) ? get_stats.weeklyReport : [];
+        var vcaccinationDoseAll = isExists(get_stats) && isExists(get_stats.weeklyReport) ? get_stats.weeklyReport : [];
         var label = [];
         var total_dose = [];
         var dose_one = [];
@@ -54,7 +54,7 @@ var vcaccinationTrends = {
     },
 
     vcaccinationDoseLast30Days: function (get_stats) {
-        var vcaccinationDoseLast30Days = isExists(get_stats) ? get_stats.last30DaysVaccination : [];
+        var vcaccinationDoseLast30Days = isExists(get_stats) && isExists(get_stats.last30DaysVaccination) ? get_stats.last30DaysVaccination : [];
         var label = [];
         var total_dose = [];
         var dose_one = [];
@@ -66,7 +66,7 @@ var vcaccinationTrends = {
             dose_two.push(vacc_data.dose_2);
         });
 
-        const vcaccination_dose_today = {
+        const vcaccination_dose_last30days = {
             labels: label,
             datasets: [
                 {
@@ -96,10 +96,10 @@ var vcaccinationTrends = {
             ]
         };
 
-        return vcaccination_dose_today
+        return vcaccination_dose_last30days
     },
     vcaccinationDoseToday: function (get_public_stats) {
-        var vaccinationDoneByTime = isExists(get_public_stats) ? get_public_stats.vaccinationDoneByTime : [];
+        var vaccinationDoneByTime = isExists(get_public_stats) && isExists(get_public_stats.vaccinationDoneByTime) ? get_public_stats.vaccinationDoneByTime : [];
         var label = [];
         var total_dose = [];
         var dose_one = [];
@@ -121,25 +121,26 @@ var vcaccinationTrends = {
                     data: total_dose,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#E7FDFF",
+                    backgroundColor: ["rgb(231,253,255,0.2)"],
                     borderColor: "#54EEFC"
-                },
-                {
-                    label: "Dose Two",
-                    data: dose_two,
-                    fill: true,
-                    lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
-                    borderColor: "#FBA714"
                 },
                 {
                     label: "Dose One",
                     data: dose_one,
                     fill: true,
                     lineTension: 0.5,
-                    // backgroundColor: "#FFF6E7",
+                    backgroundColor: ["rgb(238,243,253,0.8)"],
                     borderColor: "#5A8DEE"
+                },
+                {
+                    label: "Dose Two",
+                    data: dose_two,
+                    fill: true,
+                    lineTension: 0.5,                    
+                    backgroundColor: ["rgb(255,246,231,1)"],
+                    borderColor: "#FBA714"
                 }
+
             ]
         };
 
@@ -147,8 +148,7 @@ var vcaccinationTrends = {
     },
 
     vcaccinationAgeToday: function (get_public_stats) {
-        var vaccinationDoneByTimeAgeWise = isExists(get_public_stats) ? get_public_stats.vaccinationDoneByTimeAgeWise : [];
-
+        var vaccinationDoneByTimeAgeWise = isExists(get_public_stats) && isExists(get_public_stats.vaccinationDoneByTimeAgeWise) ? get_public_stats.vaccinationDoneByTimeAgeWise : [];
 
         var label = [];
         var total = [];
@@ -210,7 +210,7 @@ var vcaccinationTrends = {
     },
 
     vcaccinationAgeLast30Days: function (get_stats) {
-        var last30DaysAgeWiseVaccination = isExists(get_stats) ? get_stats.last30DaysAgeWiseVaccination : [];
+        var last30DaysAgeWiseVaccination = isExists(get_stats) && isExists(get_stats.last30DaysAgeWiseVaccination) ? get_stats.last30DaysAgeWiseVaccination : [];
 
         var label = [];
         var total = [];
@@ -271,7 +271,7 @@ var vcaccinationTrends = {
     },
 
     vcaccinationAgeAll: function (get_stats) {
-        var weeklyVacAgeWiseReport = isExists(get_stats) ? get_stats.weeklyVacAgeWiseReport : [];
+        var weeklyVacAgeWiseReport = isExists(get_stats) && isExists(get_stats.weeklyVacAgeWiseReport) ? get_stats.weeklyVacAgeWiseReport : [];
 
         var label = [];
         var total = [];
@@ -286,7 +286,7 @@ var vcaccinationTrends = {
             vac_60_above.push(vacc_data.vac_60_above);
         });
 
-        const vcaccination_age_last_30_day = {
+        const vcaccination_age_all = {
             labels: label,
             showTooltips: true,
             tooltips: {
@@ -328,7 +328,7 @@ var vcaccinationTrends = {
                 }
             ]
         };
-        return vcaccination_age_last_30_day;
+        return vcaccination_age_all;
     }
 };
 export default vcaccinationTrends;
